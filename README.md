@@ -51,7 +51,8 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 
 Screenshot of page:
-<img width="1397" alt="Screenshot 2024-01-22 at 3 38 29 PM" src="https://github.com/biancamistretta/Challenge5/assets/142269375/954eda80-da9f-45dc-b351-7050896da277">
+<img width="1419" alt="Screenshot 2024-01-22 at 3 46 20 PM" src="https://github.com/biancamistretta/Challenge5/assets/142269375/0c553416-bb99-435a-9a84-089584de5be1">
 
-Link: 
+
+Link: https://biancamistretta.github.io/Challenge5/
 
