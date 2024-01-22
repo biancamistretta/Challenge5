@@ -10,6 +10,13 @@ $(function () {
     const timeBlock = $("<div>").addClass("row time-block");
     const hourDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(`${hour}AM`);
     const descriptionTextarea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+
+    // Retrieve data from local storage
+    const savedEvent = localStorage.getItem(`event-${hour}`);
+    if (savedEvent) {
+      descriptionTextarea.val(savedEvent);
+    }
+
     const saveBtn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save").html('<i class="fas fa-save" aria-hidden="true"></i>');
 
     // Add past, present, or future class based on the comparison with the current hour
@@ -24,7 +31,15 @@ $(function () {
     // Append elements to the time-block
     timeBlock.append(hourDiv, descriptionTextarea, saveBtn);
     $(".container-fluid").append(timeBlock);
-  }
 
-  // TODO: Add event listener for the save button and local storage logic
+    // Event listener for the save button
+    saveBtn.on("click", function () {
+      // Get the text from the textarea
+      const eventText = descriptionTextarea.val();
+
+      // Save the text to local storage
+      localStorage.setItem(`event-${hour}`, eventText);
+      alert("Event saved!");
+    });
+  }
 });
