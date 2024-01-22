@@ -1,49 +1,30 @@
 $(function () {
-  // Listener for click events on the save button
-  $(".saveBtn").on("click", function () {
-    // Get the id of the corresponding time-block
-    var timeBlockId = $(this).closest(".time-block").attr("id");
+  // Display the current date in the header
+  $("#currentDay").text(dayjs().format("dddd, MMMM D, YYYY"));
 
-    // Get the user input from the textarea within this time-block
-    var userInput = $(this).siblings(".description").val();
+  // Get the current hour using Day.js
+  const currentHour = dayjs().hour();
 
-    // Save the user input in local storage using the time-block id as a key
-    localStorage.setItem(timeBlockId, userInput);
-  });
+  // Dynamically generate time-blocks
+  for (let hour = 9; hour <= 17; hour++) {
+    const timeBlock = $("<div>").addClass("row time-block");
+    const hourDiv = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(`${hour}AM`);
+    const descriptionTextarea = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
+    const saveBtn = $("<button>").addClass("btn saveBtn col-2 col-md-1").attr("aria-label", "save").html('<i class="fas fa-save" aria-hidden="true"></i>');
 
-  // Function to apply the past, present, or future class to each time block
-  function updateHourClasses() {
-    // Get the current hour using Day.js
-    var currentHour = dayjs().hour();
+    // Add past, present, or future class based on the comparison with the current hour
+    if (hour < currentHour) {
+      timeBlock.addClass("past");
+    } else if (hour === currentHour) {
+      timeBlock.addClass("present");
+    } else {
+      timeBlock.addClass("future");
+    }
 
-    // Loop through each time-block
-    $(".time-block").each(function () {
-      // Get the hour from the time-block id
-      var blockHour = parseInt($(this).attr("id").split("-")[1]);
-
-      // Compare with the current hour and apply classes accordingly
-      if (blockHour < currentHour) {
-        $(this).removeClass("present future").addClass("past");
-      } else if (blockHour === currentHour) {
-        $(this).removeClass("past future").addClass("present");
-      } else {
-        $(this).removeClass("past present").addClass("future");
-      }
-    });
+    // Append elements to the time-block
+    timeBlock.append(hourDiv, descriptionTextarea, saveBtn);
+    $(".container-fluid").append(timeBlock);
   }
 
-  // Call the function to apply initial classes
-  updateHourClasses();
-
-  // Display the current date in the header of the page
-  $("#currentDay").text(dayjs().format("dddd, MMMM D"));
-  
-  // Get any user input that was saved in localStorage and set textarea values
-  $(".time-block").each(function () {
-    var timeBlockId = $(this).attr("id");
-    var savedInput = localStorage.getItem(timeBlockId);
-    if (savedInput) {
-      $(this).find(".description").val(savedInput);
-    }
-  });
+  // TODO: Add event listener for the save button and local storage logic
 });
